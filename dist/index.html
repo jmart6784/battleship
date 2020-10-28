@@ -1,12 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="stylesheet" href="styles/css-reset.css">
+  <link rel="stylesheet" href="styles/styles.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Battleship</title>
 </head>
 <body>
-  
+  <div id="container">
+    <h1 id="title">Battleship</h1>
+    <br />
+    <div id="player1-board">
+      <h2>Your Board</h2>
+      <div class="board-container">
+        <div class="board-row">
+          <p></p>
+          <p>A</p>
+          <p>B</p>
+          <p>C</p>
+          <p>D</p>
+          <p>E</p>
+          <p>F</p>
+          <p>G</p>
+          <p>H</p>
+          <p>I</p>
+          <p>J</p>
+        </div>
+
+        <div class="board-row">
+          <p>1</p>
+          <button name="player1 1A" class="board-tile">.</button>
+          <button name="player1 1B" class="board-tile">.</button>
+          <button name="player1 1C" class="board-tile">.</button>
+          <button name="player1 1D" class="board-tile">.</button>
+          <button name="player1 1E" class="board-tile">.</button>
+          <button name="player1 1F" class="board-tile">.</button>
+          <button name="player1 1G" class="board-tile">.</button>
+          <button name="player1 1H" class="board-tile">.</button>
+          <button name="player1 1I" class="board-tile">.</button>
+          <button name="player1 1J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>2</p>
+          <button name="player1 2A" class="board-tile">.</button>
+          <button name="player1 2B" class="board-tile">.</button>
+          <button name="player1 2C" class="board-tile">.</button>
+          <button name="player1 2D" class="board-tile">.</button>
+          <button name="player1 2E" class="board-tile">.</button>
+          <button name="player1 2F" class="board-tile">.</button>
+          <button name="player1 2G" class="board-tile">.</button>
+          <button name="player1 2H" class="board-tile">.</button>
+          <button name="player1 2I" class="board-tile">.</button>
+          <button name="player1 2J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>3</p>
+          <button name="player1 3A" class="board-tile">.</button>
+          <button name="player1 3B" class="board-tile">.</button>
+          <button name="player1 3C" class="board-tile">.</button>
+          <button name="player1 3D" class="board-tile">.</button>
+          <button name="player1 3E" class="board-tile">.</button>
+          <button name="player1 3F" class="board-tile">.</button>
+          <button name="player1 3G" class="board-tile">.</button>
+          <button name="player1 3H" class="board-tile">.</button>
+          <button name="player1 3I" class="board-tile">.</button>
+          <button name="player1 3J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>4</p>
+          <button name="player1 4A" class="board-tile">.</button>
+          <button name="player1 4B" class="board-tile">.</button>
+          <button name="player1 4C" class="board-tile">.</button>
+          <button name="player1 4D" class="board-tile">.</button>
+          <button name="player1 4E" class="board-tile">.</button>
+          <button name="player1 4F" class="board-tile">.</button>
+          <button name="player1 4G" class="board-tile">.</button>
+          <button name="player1 4H" class="board-tile">.</button>
+          <button name="player1 4I" class="board-tile">.</button>
+          <button name="player1 4J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>5</p>
+          <button name="player1 5A" class="board-tile">.</button>
+          <button name="player1 5B" class="board-tile">.</button>
+          <button name="player1 5C" class="board-tile">.</button>
+          <button name="player1 5D" class="board-tile">.</button>
+          <button name="player1 5E" class="board-tile">.</button>
+          <button name="player1 5F" class="board-tile">.</button>
+          <button name="player1 5G" class="board-tile">.</button>
+          <button name="player1 5H" class="board-tile">.</button>
+          <button name="player1 5I" class="board-tile">.</button>
+          <button name="player1 5J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>6</p>
+          <button name="player1 6A" class="board-tile">.</button>
+          <button name="player1 6B" class="board-tile">.</button>
+          <button name="player1 6C" class="board-tile">.</button>
+          <button name="player1 6D" class="board-tile">.</button>
+          <button name="player1 6E" class="board-tile">.</button>
+          <button name="player1 6F" class="board-tile">.</button>
+          <button name="player1 6G" class="board-tile">.</button>
+          <button name="player1 6H" class="board-tile">.</button>
+          <button name="player1 6I" class="board-tile">.</button>
+          <button name="player1 6J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>7</p>
+          <button name="player1 7A" class="board-tile">.</button>
+          <button name="player1 7B" class="board-tile">.</button>
+          <button name="player1 7C" class="board-tile">.</button>
+          <button name="player1 7D" class="board-tile">.</button>
+          <button name="player1 7E" class="board-tile">.</button>
+          <button name="player1 7F" class="board-tile">.</button>
+          <button name="player1 7G" class="board-tile">.</button>
+          <button name="player1 7H" class="board-tile">.</button>
+          <button name="player1 7I" class="board-tile">.</button>
+          <button name="player1 7J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>8</p>
+          <button name="player1 8A" class="board-tile">.</button>
+          <button name="player1 8B" class="board-tile">.</button>
+          <button name="player1 8C" class="board-tile">.</button>
+          <button name="player1 8D" class="board-tile">.</button>
+          <button name="player1 8E" class="board-tile">.</button>
+          <button name="player1 8F" class="board-tile">.</button>
+          <button name="player1 8G" class="board-tile">.</button>
+          <button name="player1 8H" class="board-tile">.</button>
+          <button name="player1 8I" class="board-tile">.</button>
+          <button name="player1 8J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>9</p>
+          <button name="player1 9A" class="board-tile">.</button>
+          <button name="player1 9B" class="board-tile">.</button>
+          <button name="player1 9C" class="board-tile">.</button>
+          <button name="player1 9D" class="board-tile">.</button>
+          <button name="player1 9E" class="board-tile">.</button>
+          <button name="player1 9F" class="board-tile">.</button>
+          <button name="player1 9G" class="board-tile">.</button>
+          <button name="player1 9H" class="board-tile">.</button>
+          <button name="player1 9I" class="board-tile">.</button>
+          <button name="player1 9J" class="board-tile">.</button>
+        </div>
+
+        <div class="board-row">
+          <p>10</p>
+          <button name="player1 10A" class="board-tile">.</button>
+          <button name="player1 10B" class="board-tile">.</button>
+          <button name="player1 10C" class="board-tile">.</button>
+          <button name="player1 10D" class="board-tile">.</button>
+          <button name="player1 10E" class="board-tile">.</button>
+          <button name="player1 10F" class="board-tile">.</button>
+          <button name="player1 10G" class="board-tile">.</button>
+          <button name="player1 10H" class="board-tile">.</button>
+          <button name="player1 10I" class="board-tile">.</button>
+          <button name="player1 10J" class="board-tile">.</button>
+        </div>
+
+      </div>
+    </div>
+
+
+  </div>
+
   <script src="main.js"></script>
 </body>
 </html>
