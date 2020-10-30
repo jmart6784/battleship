@@ -21,16 +21,16 @@ let p1Ship8 = ship(1, false, ["6J"]);
 let p1Ship9 = ship(1, false, ["8J"]);
 let p1Ship10 = ship(1, false, ["10J"]);
 
-let p2Ship1 = ship(4, false, []);
-let p2Ship2 = ship(3, false, []);
-let p2Ship3 = ship(3, false, []);
-let p2Ship4 = ship(2, false, []);
-let p2Ship5 = ship(2, false, []);
-let p2Ship6 = ship(2, false, []);
-let p2Ship7 = ship(1, false, []);
-let p2Ship8 = ship(1, false, []);
-let p2Ship9 = ship(1, false, []);
-let p2Ship10 = ship(1, false, []);
+let p2Ship1 = ship(4, false, ["6I", "7I", "8I", "9I"]);
+let p2Ship2 = ship(3, false, ["9B", "9C", "9D"]);
+let p2Ship3 = ship(3, false, ["2H", "3H", "4H"]);
+let p2Ship4 = ship(2, false, ["1B", "2B"]);
+let p2Ship5 = ship(2, false, ["4A", "4B"]);
+let p2Ship6 = ship(2, false, ["1E", "1F"]);
+let p2Ship7 = ship(1, false, ["6E"]);
+let p2Ship8 = ship(1, false, ["7B"]);
+let p2Ship9 = ship(1, false, ["4F"]);
+let p2Ship10 = ship(1, false, ["8F"]);
 
 const player = (name, isTurn, moves, ships, tiles) => {
   return { name, isTurn, moves, ships, tiles };
@@ -76,16 +76,43 @@ let player2 = player(
 );
 
 export const board = (() => {
+  // Add onClick function to all Player 1 tiles
   player1.tiles.forEach((tile) => {
     tile.onclick = () => {
       // HTML name tag is split with player and coordinate info
       let nameSpT = tile.name.split(" ");
       let player = nameSpT[0];
-      let x = nameSpT[1].split("")[0];
-      let y = nameSpT[1].split("")[1];
+      let coord = nameSpT[1];
       let isEmpty = tile.classList[1] ? false : true;
 
-      receiveAttack({ player, x, y, isEmpty, tile });
+      // if statement prevents the players from clicking on their board
+      if (player1.isTurn) {
+        console.log("Error: cannot attack your own board");
+      } else {
+        // Disable button from being pressed again
+        tile.disabled = true;
+        receiveAttack({ player, coord, isEmpty, tile });
+      }
+    };
+  });
+
+  // Add onClick function to all Player 2 tiles
+  player2.tiles.forEach((tile) => {
+    tile.onclick = () => {
+      // HTML name tag is split with player and coordinate info
+      let nameSpT = tile.name.split(" ");
+      let player = nameSpT[0];
+      let coord = nameSpT[1];
+      let isEmpty = tile.classList[1] ? false : true;
+
+      // if statement prevents the players from clicking on their board
+      if (player2.isTurn) {
+        console.log("Error: cannot attack your own board");
+      } else {
+        // Disable button from being pressed again
+        tile.disabled = true;
+        receiveAttack({ player, coord, isEmpty, tile });
+      }
 
       // Disable button from being pressed again
       tile.disabled = true;
@@ -93,14 +120,26 @@ export const board = (() => {
   });
 
   const receiveAttack = (info) => {
-    // Receives attack and determines if and empty spot was hit or a ship was
+    // Receives attack and determines if a ship was hit or not
     console.log("receive attack", info);
 
     if (info.isEmpty) {
-      console.log("EMPTY ATTACK");
-      info.tile.style.backgroundColor = "gray";
+      // On miss alternate player turn and change tile color to gray
+      if (player1.isTurn) {
+        player1.moves.push(info.coord);
+        player1.isTurn = false;
+        player2.isTurn = true;
+        info.tile.style.backgroundColor = "gray";
+        console.log("P1 -> P2", player1.isTurn, player2.isTurn);
+      } else if (player2.isTurn) {
+        player2.moves.push(info.coords);
+        player1.isTurn = true;
+        player2.isTurn = false;
+        info.tile.style.backgroundColor = "gray";
+        console.log("P2 -> P1", player2.isTurn, player1.isTurn);
+      }
     } else {
-      console.log("HIT DETECTED");
+      // on Hit change tile to red
       info.tile.style.backgroundColor = "red";
     }
   };
@@ -110,6 +149,17 @@ export const board = (() => {
     player1.ships.forEach((ship) => {
       ship.coords.forEach((coord) => {
         player1.tiles.forEach((tile) => {
+          if (tile.name.split(" ")[1] === coord) {
+            tile.style.backgroundColor = "blue";
+            tile.classList += " occupied";
+          }
+        });
+      });
+    });
+
+    player2.ships.forEach((ship) => {
+      ship.coords.forEach((coord) => {
+        player2.tiles.forEach((tile) => {
           if (tile.name.split(" ")[1] === coord) {
             tile.style.backgroundColor = "blue";
             tile.classList += " occupied";
