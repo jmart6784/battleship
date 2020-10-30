@@ -83,35 +83,40 @@ export const board = (() => {
       let player = nameSpT[0];
       let x = nameSpT[1].split("")[0];
       let y = nameSpT[1].split("")[1];
+      let isEmpty = tile.classList[1] ? false : true;
 
-      moves.push({ player, x, y });
+      receiveAttack({ player, x, y, isEmpty, tile });
 
       // Disable button from being pressed again
       tile.disabled = true;
-      tile.style.backgroundColor = "gray";
     };
   });
 
+  const receiveAttack = (info) => {
+    // Receives attack and determines if and empty spot was hit or a ship was
+    console.log("receive attack", info);
+
+    if (info.isEmpty) {
+      console.log("EMPTY ATTACK");
+      info.tile.style.backgroundColor = "gray";
+    } else {
+      console.log("HIT DETECTED");
+      info.tile.style.backgroundColor = "red";
+    }
+  };
+
   const placePieces = () => {
     // Place ship pieces using ship.coords array
-    console.log(p1Ship1.coords);
-
     player1.ships.forEach((ship) => {
       ship.coords.forEach((coord) => {
         player1.tiles.forEach((tile) => {
           if (tile.name.split(" ")[1] === coord) {
             tile.style.backgroundColor = "blue";
-          } else {
-            console.log("NO MATCH");
+            tile.classList += " occupied";
           }
-          // console.log("SSS", tile);
         });
       });
     });
-  };
-
-  const receiveAttack = (x, y) => {
-    // Receives attack and determines if and empty spot was hit or a ship was
   };
 
   // Keep track of missed shots
