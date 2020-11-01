@@ -9,8 +9,10 @@ h4,
 h5,
 h6,
 label,
-p {
+p,
+button {
   color: white;
+  font-family: "Montserrat", sans-serif;
 }
 
 .board-container {
@@ -45,4 +47,46 @@ p {
   border: 1px solid gray;
   color: white;
   outline: none;
+}
+
+#winner-popup {
+  box-sizing: border-box;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+}
+
+#winner-info {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+}
+
+#win-box {
+  border: 1px solid white;
+  background-color: rgb(61, 61, 61);
+}
+
+#winner-name {
+  font-weight: 200;
+  font-size: 80px;
+  margin: 30px 20px 50px 20px;
+}
+
+#game-reset {
+  background-color: black;
+  border: 0px;
+  font-size: 40px;
+  width: 100%;
+  padding: 10px 0 10px 0;
+}
+
+#game-reset:hover {
+  background-color: rgb(20, 20, 20);
 }

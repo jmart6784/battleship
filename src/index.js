@@ -1,41 +1,76 @@
 let p1Tiles = document.querySelectorAll(".p1-board-tile");
 let p2Tiles = document.querySelectorAll(".p2-board-tile");
-let moves = [];
 
-export const ship = (length, sunk, coords) => {
-  const hit = (x, y) => {
-    // Mark x,y coordinate as hit only if ship is hit
-  };
-
-  return { length, sunk, coords, hit };
+export const ship = (coords) => {
+  return { coords };
 };
 
-let p1Ship1 = ship(4, false, ["1A", "1B", "1C", "1D"]);
-let p1Ship2 = ship(3, false, ["3A", "3B", "3C"]);
-let p1Ship3 = ship(3, false, ["5A", "5B", "5C"]);
-let p1Ship4 = ship(2, false, ["7A", "7B"]);
-let p1Ship5 = ship(2, false, ["9A", "9B"]);
-let p1Ship6 = ship(2, false, ["2I", "2J"]);
-let p1Ship7 = ship(1, false, ["4J"]);
-let p1Ship8 = ship(1, false, ["6J"]);
-let p1Ship9 = ship(1, false, ["8J"]);
-let p1Ship10 = ship(1, false, ["10J"]);
+let p1Ship1 = ship(["1A", "1B", "1C", "1D"]);
+let p1Ship2 = ship(["3A", "3B", "3C"]);
+let p1Ship3 = ship(["5A", "5B", "5C"]);
+let p1Ship4 = ship(["7A", "7B"]);
+let p1Ship5 = ship(["9A", "9B"]);
+let p1Ship6 = ship(["2I", "2J"]);
+let p1Ship7 = ship(["4J"]);
+let p1Ship8 = ship(["6J"]);
+let p1Ship9 = ship(["8J"]);
+let p1Ship10 = ship(["10J"]);
 
-let p2Ship1 = ship(4, false, ["6I", "7I", "8I", "9I"]);
-let p2Ship2 = ship(3, false, ["9B", "9C", "9D"]);
-let p2Ship3 = ship(3, false, ["2H", "3H", "4H"]);
-let p2Ship4 = ship(2, false, ["1B", "2B"]);
-let p2Ship5 = ship(2, false, ["4A", "4B"]);
-let p2Ship6 = ship(2, false, ["1E", "1F"]);
-let p2Ship7 = ship(1, false, ["6E"]);
-let p2Ship8 = ship(1, false, ["7B"]);
-let p2Ship9 = ship(1, false, ["4F"]);
-let p2Ship10 = ship(1, false, ["8F"]);
+let p2Ship1 = ship(["6I", "7I", "8I", "9I"]);
+let p2Ship2 = ship(["9B", "9C", "9D"]);
+let p2Ship3 = ship(["2H", "3H", "4H"]);
+let p2Ship4 = ship(["1B", "2B"]);
+let p2Ship5 = ship(["4A", "4B"]);
+let p2Ship6 = ship(["1E", "1F"]);
+let p2Ship7 = ship(["6E"]);
+let p2Ship8 = ship(["7B"]);
+let p2Ship9 = ship(["4F"]);
+let p2Ship10 = ship(["8F"]);
 
-const player = (name, isTurn, moves, ships, tiles) => {
-  return { name, isTurn, moves, ships, tiles };
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
-  // Make A.I player that takes turns at random coords but doesn't repeat hit coordinates
+const randomCoords = (randNum1, randNum2, player) => {
+  let x = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
+  let y = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+
+  let coord = x[randNum1] + y[randNum2];
+
+  // Check Player moves if the coordinate was already used
+  if (player.moves.includes(coord)) {
+    // Generate new unique coordinate that has not been used
+    while (player.moves.includes(coord)) {
+      coord = x[getRandomInt(0, 9)] + y[getRandomInt(0, 9)];
+    }
+
+    return coord;
+  } else {
+    return coord;
+  }
+};
+
+const player = (name, isTurn, moves, ships, tiles, totalHP) => {
+  const aiMove = (coord) => {
+    let tile = document.querySelector(`[name="player1 ${coord}"]`);
+    // Get info from tile
+    let nameSpT = tile.name.split(" ");
+    let player = nameSpT[0];
+    let isEmpty = tile.classList[1] ? false : true;
+    return { player, coord, isEmpty, tile };
+  };
+
+  return {
+    name,
+    isTurn,
+    moves,
+    ships,
+    tiles,
+    totalHP,
+    aiMove: aiMove,
+  };
 };
 
 let player1 = player(
@@ -54,7 +89,8 @@ let player1 = player(
     p1Ship9,
     p1Ship10,
   ],
-  p1Tiles
+  p1Tiles,
+  20
 );
 let player2 = player(
   "player2",
@@ -72,7 +108,8 @@ let player2 = player(
     p2Ship9,
     p2Ship10,
   ],
-  p2Tiles
+  p2Tiles,
+  20
 );
 
 export const board = (() => {
@@ -86,9 +123,7 @@ export const board = (() => {
       let isEmpty = tile.classList[1] ? false : true;
 
       // if statement prevents the players from clicking on their board
-      if (player1.isTurn) {
-        console.log("Error: cannot attack your own board");
-      } else {
+      if (!player1.isTurn) {
         // Disable button from being pressed again
         tile.disabled = true;
         receiveAttack({ player, coord, isEmpty, tile });
@@ -106,9 +141,7 @@ export const board = (() => {
       let isEmpty = tile.classList[1] ? false : true;
 
       // if statement prevents the players from clicking on their board
-      if (player2.isTurn) {
-        console.log("Error: cannot attack your own board");
-      } else {
+      if (!player2.isTurn) {
         // Disable button from being pressed again
         tile.disabled = true;
         receiveAttack({ player, coord, isEmpty, tile });
@@ -121,7 +154,6 @@ export const board = (() => {
 
   const receiveAttack = (info) => {
     // Receives attack and determines if a ship was hit or not
-    console.log("receive attack", info);
 
     if (info.isEmpty) {
       // On miss alternate player turn and change tile color to gray
@@ -130,18 +162,74 @@ export const board = (() => {
         player1.isTurn = false;
         player2.isTurn = true;
         info.tile.style.backgroundColor = "gray";
-        console.log("P1 -> P2", player1.isTurn, player2.isTurn);
+
+        // Get new Coordinates
+        let newCoords = randomCoords(
+          getRandomInt(0, 9),
+          getRandomInt(0, 9),
+          player2
+        );
+
+        // Get AI move information
+        let obj = player2.aiMove(newCoords);
+
+        // Receive attack on those coordinates
+        receiveAttack(obj);
       } else if (player2.isTurn) {
-        player2.moves.push(info.coords);
+        player2.moves.push(info.coord);
+
         player1.isTurn = true;
         player2.isTurn = false;
         info.tile.style.backgroundColor = "gray";
-        console.log("P2 -> P1", player2.isTurn, player1.isTurn);
       }
     } else {
       // on Hit change tile to red
       info.tile.style.backgroundColor = "red";
+
+      // decrement player.totalHP on hit or game over if health is 1
+      if (player1.isTurn) {
+        if (player2.totalHP === 1) {
+          gameOver(player1.name);
+        } else {
+          player2.totalHP -= 1;
+        }
+      } else if (player2.isTurn) {
+        if (player1.totalHP === 1) {
+          gameOver(player2.name);
+        } else {
+          let newCoords = randomCoords(
+            getRandomInt(0, 9),
+            getRandomInt(0, 9),
+            player2
+          );
+
+          let obj = player2.aiMove(newCoords);
+
+          receiveAttack(obj);
+
+          console.log("BEFORE HIT:", player1.totalHP);
+          player1.totalHP -= 1;
+          console.log("AFTER HIT:", player1.totalHP);
+        }
+      }
     }
+  };
+
+  const gameOver = (winner) => {
+    player1.tiles.forEach((tile) => {
+      tile.disabled = true;
+    });
+
+    player2.tiles.forEach((tile) => {
+      tile.disabled = true;
+    });
+
+    document.getElementById("winner-name").innerHTML =
+      winner === "player1" ? "You Win!" : "Enemy has won!";
+    document.getElementById("winner-popup").style.display = "block";
+    document.getElementById("game-reset").addEventListener("click", () => {
+      location.reload();
+    });
   };
 
   const placePieces = () => {
@@ -169,20 +257,7 @@ export const board = (() => {
     });
   };
 
-  // Keep track of missed shots
-
-  // Check for game over if all ships were sunk or not
-
-  const getCoords = (x, y) => {
-    console.log("coords", x, y);
-  };
-
-  return { placePieces, receiveAttack, getCoords };
+  return { placePieces, receiveAttack };
 })();
 
-const gameLoop = () => {
-  // Loop game here only using existing methods
-  board.placePieces();
-};
-
-gameLoop();
+board.placePieces();
