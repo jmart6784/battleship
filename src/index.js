@@ -1,77 +1,42 @@
+import getRandomInt from "./components/getRandomInt";
+import randomBoard from "./components/randomBoard";
+import ship from "./components/ship";
+import randomCoords from "./components/randomCoords";
+import player from "./components/player";
+
 let p1Tiles = document.querySelectorAll(".p1-board-tile");
 let p2Tiles = document.querySelectorAll(".p2-board-tile");
 
-export const ship = (coords) => {
-  return { coords };
-};
+let p1Layout = randomBoard();
+let p2Layout = randomBoard();
 
-let p1Ship1 = ship(["1A", "1B", "1C", "1D"]);
-let p1Ship2 = ship(["3A", "3B", "3C"]);
-let p1Ship3 = ship(["5A", "5B", "5C"]);
-let p1Ship4 = ship(["7A", "7B"]);
-let p1Ship5 = ship(["9A", "9B"]);
-let p1Ship6 = ship(["2I", "2J"]);
-let p1Ship7 = ship(["4J"]);
-let p1Ship8 = ship(["6J"]);
-let p1Ship9 = ship(["8J"]);
-let p1Ship10 = ship(["10J"]);
+// Change boards layouts if they are the same
+while (p1Layout.id === p2Layout.id) {
+  p1Layout = randomBoard();
+  p2Layout = randomBoard();
+}
 
-let p2Ship1 = ship(["6I", "7I", "8I", "9I"]);
-let p2Ship2 = ship(["9B", "9C", "9D"]);
-let p2Ship3 = ship(["2H", "3H", "4H"]);
-let p2Ship4 = ship(["1B", "2B"]);
-let p2Ship5 = ship(["4A", "4B"]);
-let p2Ship6 = ship(["1E", "1F"]);
-let p2Ship7 = ship(["6E"]);
-let p2Ship8 = ship(["7B"]);
-let p2Ship9 = ship(["4F"]);
-let p2Ship10 = ship(["8F"]);
+let p1Ship1 = ship(p1Layout.ship1);
+let p1Ship2 = ship(p1Layout.ship2);
+let p1Ship3 = ship(p1Layout.ship3);
+let p1Ship4 = ship(p1Layout.ship4);
+let p1Ship5 = ship(p1Layout.ship5);
+let p1Ship6 = ship(p1Layout.ship6);
+let p1Ship7 = ship(p1Layout.ship7);
+let p1Ship8 = ship(p1Layout.ship8);
+let p1Ship9 = ship(p1Layout.ship9);
+let p1Ship10 = ship(p1Layout.ship10);
 
-const getRandomInt = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-const randomCoords = (randNum1, randNum2, player) => {
-  let x = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-  let y = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
-
-  let coord = x[randNum1] + y[randNum2];
-
-  // Check Player moves if the coordinate was already used
-  if (player.moves.includes(coord)) {
-    // Generate new unique coordinate that has not been used
-    while (player.moves.includes(coord)) {
-      coord = x[getRandomInt(0, 9)] + y[getRandomInt(0, 9)];
-    }
-
-    return coord;
-  } else {
-    return coord;
-  }
-};
-
-const player = (name, isTurn, moves, ships, tiles, totalHP) => {
-  const aiMove = (coord) => {
-    let tile = document.querySelector(`[name="player1 ${coord}"]`);
-    // Get info from tile
-    let nameSpT = tile.name.split(" ");
-    let player = nameSpT[0];
-    let isEmpty = tile.classList[1] ? false : true;
-    return { player, coord, isEmpty, tile };
-  };
-
-  return {
-    name,
-    isTurn,
-    moves,
-    ships,
-    tiles,
-    totalHP,
-    aiMove: aiMove,
-  };
-};
+let p2Ship1 = ship(p2Layout.ship1);
+let p2Ship2 = ship(p2Layout.ship2);
+let p2Ship3 = ship(p2Layout.ship3);
+let p2Ship4 = ship(p2Layout.ship4);
+let p2Ship5 = ship(p2Layout.ship5);
+let p2Ship6 = ship(p2Layout.ship6);
+let p2Ship7 = ship(p2Layout.ship7);
+let p2Ship8 = ship(p2Layout.ship8);
+let p2Ship9 = ship(p2Layout.ship9);
+let p2Ship10 = ship(p2Layout.ship10);
 
 let player1 = player(
   "player1",
@@ -186,8 +151,6 @@ export const board = (() => {
       // on Hit change tile to red
       info.tile.style.backgroundColor = "red";
 
-      console.log("getRedCount()", getRedCount());
-
       // decrement player.totalHP on hit or game over if health is 1
       if (player1.isTurn) {
         if (player2.totalHP === 1) {
@@ -196,13 +159,10 @@ export const board = (() => {
           player2.totalHP -= 1;
         }
       } else if (player2.isTurn) {
+        // End game if player 1 tiles are all red
         if (getRedCount() === 20) {
           gameOver(player2.name);
         } else {
-          // console.log("BEFORE HIT:", player1.totalHP);
-          player1.totalHP -= 1;
-          // console.log("AFTER HIT:", player1.totalHP);
-
           let newCoords = randomCoords(
             getRandomInt(0, 9),
             getRandomInt(0, 9),
