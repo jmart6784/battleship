@@ -186,6 +186,8 @@ export const board = (() => {
       // on Hit change tile to red
       info.tile.style.backgroundColor = "red";
 
+      console.log("getRedCount()", getRedCount());
+
       // decrement player.totalHP on hit or game over if health is 1
       if (player1.isTurn) {
         if (player2.totalHP === 1) {
@@ -194,9 +196,13 @@ export const board = (() => {
           player2.totalHP -= 1;
         }
       } else if (player2.isTurn) {
-        if (player1.totalHP === 1) {
+        if (getRedCount() === 20) {
           gameOver(player2.name);
         } else {
+          // console.log("BEFORE HIT:", player1.totalHP);
+          player1.totalHP -= 1;
+          // console.log("AFTER HIT:", player1.totalHP);
+
           let newCoords = randomCoords(
             getRandomInt(0, 9),
             getRandomInt(0, 9),
@@ -206,13 +212,21 @@ export const board = (() => {
           let obj = player2.aiMove(newCoords);
 
           receiveAttack(obj);
-
-          console.log("BEFORE HIT:", player1.totalHP);
-          player1.totalHP -= 1;
-          console.log("AFTER HIT:", player1.totalHP);
         }
       }
     }
+  };
+
+  const getRedCount = () => {
+    let rCount = 0;
+
+    p1Tiles.forEach((tile) => {
+      if (tile.style.backgroundColor === "red") {
+        rCount++;
+      }
+    });
+
+    return rCount;
   };
 
   const gameOver = (winner) => {
