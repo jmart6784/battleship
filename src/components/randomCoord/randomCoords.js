@@ -1,4 +1,4 @@
-import getRandomInt from "./getRandomInt";
+import getRandomInt from "../getRandomInt/getRandomInt";
 
 const randomCoords = (randNum1, randNum2, player) => {
   let x = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];

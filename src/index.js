@@ -1,8 +1,8 @@
-import getRandomInt from "./components/getRandomInt";
-import randomBoard from "./components/randomBoard";
-import ship from "./components/ship";
-import randomCoords from "./components/randomCoords";
-import player from "./components/player";
+import getRandomInt from "./components/getRandomInt/getRandomInt";
+import randomBoard from "./components/randomBoard/randomBoard";
+import ship from "./components/ship/ship";
+import randomCoords from "./components/randomCoord/randomCoords";
+import player from "./components/player/player";
 
 let p1Tiles = document.querySelectorAll(".p1-board-tile");
 let p2Tiles = document.querySelectorAll(".p2-board-tile");
@@ -87,7 +87,7 @@ export const board = (() => {
       let coord = nameSpT[1];
       let isEmpty = tile.classList[1] ? false : true;
 
-      // if statement prevents the players from clicking on their board
+      // prevent player from clicking on their board
       if (!player1.isTurn) {
         // Disable button from being pressed again
         tile.disabled = true;
@@ -105,7 +105,7 @@ export const board = (() => {
       let coord = nameSpT[1];
       let isEmpty = tile.classList[1] ? false : true;
 
-      // if statement prevents the players from clicking on their board
+      // prevent player from clicking on their board
       if (!player2.isTurn) {
         // Disable button from being pressed again
         tile.disabled = true;
@@ -223,7 +223,7 @@ export const board = (() => {
       ship.coords.forEach((coord) => {
         player2.tiles.forEach((tile) => {
           if (tile.name.split(" ")[1] === coord) {
-            tile.style.backgroundColor = "blue";
+            // tile.style.backgroundColor = "blue";
             tile.classList += " occupied";
           }
         });
@@ -231,7 +231,7 @@ export const board = (() => {
     });
   };
 
-  return { placePieces, receiveAttack };
+  return { receiveAttack, getRedCount, gameOver, placePieces };
 })();
 
 board.placePieces();

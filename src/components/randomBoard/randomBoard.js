@@ -1,4 +1,4 @@
-import getRandomInt from "./getRandomInt";
+import getRandomInt from "../getRandomInt/getRandomInt";
 
 const randomBoard = () => {
   const boards = [

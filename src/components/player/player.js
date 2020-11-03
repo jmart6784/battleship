@@ -1,6 +1,7 @@
 const player = (name, isTurn, moves, ships, tiles, totalHP) => {
   const aiMove = (coord) => {
     let tile = document.querySelector(`[name="player1 ${coord}"]`);
+
     // Get info from tile
     let nameSpT = tile.name.split(" ");
     let player = nameSpT[0];

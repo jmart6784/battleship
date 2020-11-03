@@ -1,6 +1,5 @@
 import { board } from "./index";
 
-test("ships are not sunk by default", () => {
-  const ship1 = ship(4, false, []);
-  expect(ship1.sunk).toBe(false);
+test("Number of red tiles on start for player 1 is  0", () => {
+  expect(board.getRedCount()).toBe(0);
 });
